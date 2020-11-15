@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">PjatkShoppingList</string>
-    <string name="add_button_pl">Dodaj</string>
-    <string name="add_button_eng">Add</string>
+    <string name="add_button">Add</string>
+    <string name="options_button">Options</string>
 </resources>
