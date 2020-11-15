@@ -2,4 +2,6 @@
     <string name="app_name">PjatkShoppingList</string>
     <string name="add_button">Add</string>
     <string name="options_button">Options</string>
+    <string name="save_button">Save</string>
+    <string name="back_button">Back</string>
 </resources>

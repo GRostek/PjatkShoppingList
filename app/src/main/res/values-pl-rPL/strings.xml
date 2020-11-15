@@ -3,4 +3,6 @@
     <string name="app_name">PjatkShoppingList</string>
     <string name="add_button">Dodaj</string>
     <string name="options_button">Opcje</string>
+    <string name="save_button">Zapisz</string>
+    <string name="back_button">Cofnij</string>
 </resources>
