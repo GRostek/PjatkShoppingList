@@ -5,4 +5,7 @@
     <string name="options_button">Opcje</string>
     <string name="save_button">Zapisz</string>
     <string name="back_button">Cofnij</string>
+    <string name="delete_item_message">Czy na pewno chcesz usunąć ten element?</string>
+    <string name="delete_item_message_confirmation">Tak</string>
+    <string name="delete_item_message_denial">Nie</string>
 </resources>

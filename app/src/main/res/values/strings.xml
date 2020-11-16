@@ -4,4 +4,7 @@
     <string name="options_button">Options</string>
     <string name="save_button">Save</string>
     <string name="back_button">Back</string>
+    <string name="delete_item_message">Are you sure you want to delete this item?</string>
+    <string name="delete_item_message_confirmation">Yes</string>
+    <string name="delete_item_message_denial">No</string>
 </resources>
