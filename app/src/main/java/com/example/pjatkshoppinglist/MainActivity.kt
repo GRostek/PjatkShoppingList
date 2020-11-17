@@ -5,8 +5,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pjatkshoppinglist.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -16,15 +18,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         sharedPreferences = getPreferences(Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
 
-        initiateProductListLayoutManager()
+        initiateProductListLayoutManager(binding)
 
         setAddButtonListeners()
 
         setOptionsButtonListeners()
+
+
+
 
 
 
@@ -56,11 +62,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initiateProductListLayoutManager(){
-        productList.layoutManager = LinearLayoutManager(this)
-        productList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        val dane = arrayListOf("element1","element2","element3","element4","element5","element6")
-        val adapter = ProductAdapter(dane, this)
+    fun initiateProductListLayoutManager(binding: ActivityMainBinding){
+        binding.productList.layoutManager = LinearLayoutManager(this)
+        binding.productList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+
+
+        val productViewModel = ProductViewModel(application)
+        val adapter = ProductAdapter(productViewModel, this)
+        productViewModel.allProducts.observe(this, {products ->
+            products?.let{
+                adapter.setProducts(it)
+            }
+        })
+
         productList.adapter = adapter
     }
 }

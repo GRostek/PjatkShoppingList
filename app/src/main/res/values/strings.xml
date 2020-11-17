@@ -7,4 +7,10 @@
     <string name="delete_item_message">Are you sure you want to delete this item?</string>
     <string name="delete_item_message_confirmation">Yes</string>
     <string name="delete_item_message_denial">No</string>
+    <string name="product_name">Product name</string>
+    <string name="price">Price</string>
+    <string name="quantity">Quantity</string>
+    <string name="product">"Product "</string>
+    <string name="add_activity_added">" was added"</string>
+    <string name="product_remove">Product has been removed</string>
 </resources>
