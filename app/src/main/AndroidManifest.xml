@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".AddProductActivity"/>
         <activity android:name=".OptionsActivity"/>
+        <activity android:name=".ModifyActivity"/>
     </application>
 
 </manifest>

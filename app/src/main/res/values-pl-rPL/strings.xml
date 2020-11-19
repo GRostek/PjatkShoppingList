@@ -23,4 +23,5 @@
     <string name="size">Rozmiar</string>
     <string name="text_size_toast">Proszę wprowadzić wartość pomiędzy 10 a 64</string>
     <string name="empty_font_size_toast">Proszę wprowadzić rozmiar czcionki</string>
+    <string name="toast_add_error">Proszę wypełnić wszystkie pola</string>
 </resources>

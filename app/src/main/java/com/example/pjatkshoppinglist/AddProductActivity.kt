@@ -21,6 +21,11 @@ class AddProductActivity : AppCompatActivity() {
         val productViewModel = ProductViewModel(application)
 
         binding.saveButton.setOnClickListener{
+            if(binding.editTextProductName.text.toString() == "" || binding.editTextPrice.text.toString() == "" || binding.editQuantity.text.toString() == ""){
+                Toast.makeText(this,getString(R.string.toast_add_error),Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val product = Product(
                 itemName = binding.editTextProductName.text.toString(),
                 price = binding.editTextPrice.text.toString().toDouble(),

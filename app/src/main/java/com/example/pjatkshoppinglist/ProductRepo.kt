@@ -1,5 +1,7 @@
 package com.example.pjatkshoppinglist
 
+import androidx.lifecycle.LiveData
+
 class ProductRepo(private val productDao: ProductDao) {
 
     val allProducts = productDao.getProducts()
@@ -14,5 +16,9 @@ class ProductRepo(private val productDao: ProductDao) {
 
     fun update(product: Product){
         productDao.update(product)
+    }
+
+    fun getById(id: String): Product {
+        return productDao.getById(id)
     }
 }

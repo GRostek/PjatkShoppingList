@@ -1,16 +1,17 @@
 package com.example.pjatkshoppinglist
 
 import android.app.AlertDialog
+import android.content.Intent
+
 import android.view.LayoutInflater
-import android.view.View
+
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
+
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pjatkshoppinglist.databinding.ProductListViewBinding
-import org.w3c.dom.Text
+
 
 class ProductAdapter(private val viewModel: ProductViewModel, private val context: AppCompatActivity): RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
@@ -42,6 +43,11 @@ class ProductAdapter(private val viewModel: ProductViewModel, private val contex
         holder.binding.root.setOnLongClickListener{
             createDeletionConfirmationDialog(currentProduct)
             true
+        }
+
+        holder.binding.root.setOnClickListener{
+            context as MainActivity
+            context.bindOnClickListener(currentProduct)
         }
     }
 

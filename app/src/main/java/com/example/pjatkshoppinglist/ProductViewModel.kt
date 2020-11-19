@@ -21,4 +21,6 @@ class ProductViewModel(application: Application): AndroidViewModel(application) 
     fun delete(product: Product) = repo.delete(product)
 
     fun update(product: Product) = repo.update(product)
+
+    fun getById(id:String) = repo.getById(id)
 }

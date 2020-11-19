@@ -17,4 +17,7 @@ interface ProductDao {
 
     @Update
     fun update(product: Product)
+
+    @Query("Select * from Product where id = :id")
+    fun getById(id: String): Product
 }

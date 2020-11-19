@@ -77,4 +77,10 @@ class MainActivity : AppCompatActivity() {
 
         productList.adapter = adapter
     }
+
+    fun bindOnClickListener(currentProduct: Product){
+        val intent = Intent(this, ModifyActivity::class.java)
+        intent.putExtra("id",currentProduct.id.toLong())
+        startActivity(intent)
+    }
 }
