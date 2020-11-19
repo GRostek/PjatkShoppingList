@@ -14,14 +14,18 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
+
+    var color: Int = 0
+    var font: Float = 0f
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        sharedPreferences = getPreferences(Context.MODE_PRIVATE)
-        editor = sharedPreferences.edit()
+        //sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("ShoppingApp", Context.MODE_PRIVATE)
+
 
         initiateProductListLayoutManager(binding)
 
@@ -38,15 +42,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //TODO tutaj wczytanie opcji z shared preferences
+
+        val colorArray = resources.obtainTypedArray(R.array.colors)
+        val defaultColor =  colorArray.getColor(0,0)
+        color = sharedPreferences.getInt("ActualColor",defaultColor)
+        font = sharedPreferences.getFloat("ActualSize", 25.0f)
+        println(sharedPreferences.contains("ActualColor"))
+        println(sharedPreferences.contains("ActualSize"))
+
+
     }
 
-    override fun onStop() {
-        super.onStop()
-        //TODO zapis do shared preferences
-
-        editor.apply()
-    }
 
     fun setAddButtonListeners(){
         addButton.setOnClickListener{
@@ -69,6 +75,8 @@ class MainActivity : AppCompatActivity() {
 
         val productViewModel = ProductViewModel(application)
         val adapter = ProductAdapter(productViewModel, this)
+        val colorList = listOf<Int>(color)
+        val fontList = listOf<Float>(font)
         productViewModel.allProducts.observe(this, {products ->
             products?.let{
                 adapter.setProducts(it)

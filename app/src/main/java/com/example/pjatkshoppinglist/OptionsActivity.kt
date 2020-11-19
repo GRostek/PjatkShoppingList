@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.pjatkshoppinglist.databinding.ActivityOptionsBinding
 import kotlinx.android.synthetic.main.activity_add.backButton
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_options.*
 
 class OptionsActivity: AppCompatActivity() {
@@ -24,7 +25,8 @@ class OptionsActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityOptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+        //sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("ShoppingApp", Context.MODE_PRIVATE)
         editor = sharedPreferences.edit()
 
 
@@ -107,6 +109,10 @@ class OptionsActivity: AppCompatActivity() {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, sharedPreferences.getFloat("ActualSize", 25.0f))
         textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, sharedPreferences.getFloat("ActualSize", 25.0f))
 
+        println("Options")
+        println(sharedPreferences.contains("ActualColor"))
+        println(sharedPreferences.contains("ActualSize"))
+
     }
 
     override fun onStop() {
@@ -125,7 +131,6 @@ class OptionsActivity: AppCompatActivity() {
             val size = editFontSize.text.toString().toFloat()
             editor.putFloat("ActualSize", size)
         }
-
 
         editor.apply()
     }
