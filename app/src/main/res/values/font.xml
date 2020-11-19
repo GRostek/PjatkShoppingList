@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="defaultFont">25sp</dimen>
-
+    <dimen name="actualFont">25sp</dimen>
+    <color name="actualColor">@color/black</color>
 </resources>

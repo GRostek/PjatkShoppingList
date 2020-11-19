@@ -14,4 +14,13 @@
     <string name="product">Produkt</string>
     <string name="add_activity_added">" został dodany"</string>
     <string name="product_remove">Produkt został usunięty</string>
+    <string name="black">Czarny</string>
+    <string name="red">Czerwony</string>
+    <string name="purple">Fioletowy</string>
+    <string name="green">Zielony</string>
+    <string name="font_size">Rozmiar czcionki</string>
+    <string name="font_color">Kolor Czcionki</string>
+    <string name="size">Rozmiar</string>
+    <string name="text_size_toast">Proszę wprowadzić wartość pomiędzy 10 a 64</string>
+    <string name="empty_font_size_toast">Proszę wprowadzić rozmiar czcionki</string>
 </resources>
