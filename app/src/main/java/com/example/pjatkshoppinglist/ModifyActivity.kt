@@ -17,23 +17,6 @@ class ModifyActivity() : AppCompatActivity() {
 
         val productViewModel = ProductViewModel(application)
 
-        //val products = productViewModel.allProducts.value
-
-        //var product = Product(0,"",-1.0,-1,false)
-
-        /*if(products == null){
-            println("null :(")
-        }
-
-        if (products != null) {
-            for(p in products){
-                println(p.id)
-                if(p.id == id){
-                    product = p
-                    break
-                }
-            }
-        }*/
 
         val product = productViewModel.getById(id.toString())
 
@@ -49,9 +32,9 @@ class ModifyActivity() : AppCompatActivity() {
             product.itemName = binding.editTextProductName.text.toString()
             product.price = binding.editTextPrice.text.toString().toDouble()
             product.quantity = binding.editQuantity.text.toString().toInt()
-            if (product != null) {
-                productViewModel.update(product)
-            }
+
+            productViewModel.update(product)
+
             finish()
         }
 

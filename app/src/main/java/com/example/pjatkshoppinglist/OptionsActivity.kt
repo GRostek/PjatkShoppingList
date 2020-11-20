@@ -19,7 +19,6 @@ class OptionsActivity: AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
-    private var hasChanged = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +47,13 @@ class OptionsActivity: AppCompatActivity() {
 
                 textView.setTextColor(color)
                 textView2.setTextColor(color)
-                hasChanged = true
-                finish()
+
+                applyToSharedPreferences()
+
+
+
+
+                //finish()
             } else {
                 Toast.makeText(this,getString(R.string.text_size_toast),Toast.LENGTH_SHORT).show()
             }
@@ -61,39 +65,6 @@ class OptionsActivity: AppCompatActivity() {
         }
     }
 
-    /*private fun setFontListener(){
-        editFontSize.doAfterTextChanged {
-            if(it.isNullOrBlank()){}
-            else {
-                val size = it.toString().toFloat()
-                if (size in 1.0..64.0) {
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, size)
-                    textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, size)
-                } else {
-                    editFontSize.setText("")
-                }
-            }
-        }
-    }*/
-
-
-    /*private fun setColorListener(){
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val colorArray = resources.obtainTypedArray(R.array.colors)
-                val pos = spinner.selectedItemPosition
-                val color = colorArray.getColor(pos,0)
-
-                textView.setTextColor(color)
-                textView2.setTextColor(color)
-            }
-
-        }
-    }*/
 
     override fun onStart() {
         super.onStart()
@@ -109,23 +80,15 @@ class OptionsActivity: AppCompatActivity() {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, sharedPreferences.getFloat("ActualSize", 25.0f))
         textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, sharedPreferences.getFloat("ActualSize", 25.0f))
 
-        println("Options")
-        println(sharedPreferences.contains("ActualColor"))
-        println(sharedPreferences.contains("ActualSize"))
 
     }
 
-    override fun onStop() {
-        super.onStop()
-
-        if(!hasChanged) return
-
-
+    private fun applyToSharedPreferences(){
         val colorArray = resources.obtainTypedArray(R.array.colors)
         val pos = spinner.selectedItemPosition
         val color = colorArray.getColor(pos, 0)
 
-            editor.putInt("ActualColor", color)
+        editor.putInt("ActualColor", color)
 
         if(editFontSize.text.toString() != "") {
             val size = editFontSize.text.toString().toFloat()
@@ -133,6 +96,7 @@ class OptionsActivity: AppCompatActivity() {
         }
 
         editor.apply()
+
     }
 }
 

@@ -37,6 +37,7 @@ class ProductAdapter(private val viewModel: ProductViewModel,
         //sharedPreferences = context.getPreferences(Context.MODE_PRIVATE)
         sharedPreferences = context.getSharedPreferences("ShoppingApp", Context.MODE_PRIVATE)
 
+
         return ViewHolder(binding)
     }
 
@@ -44,17 +45,11 @@ class ProductAdapter(private val viewModel: ProductViewModel,
         val currentProduct = productList[position]
 
 
-        println("adapter")
-        println(sharedPreferences.contains("ActualColor"))
-        println(sharedPreferences.contains("ActualSize"))
-
         val colorArray = context.resources.obtainTypedArray(R.array.colors)
         val defaultColor = colorArray.getColor(0, 0)
         val color = sharedPreferences.getInt("ActualColor", defaultColor)
         val font = sharedPreferences.getFloat("ActualSize", 25.0f)
 
-        println(color)
-        println(font)
 
         if (color != 0) {
             holder.binding.textViewItemName.setTextColor(color)
@@ -73,9 +68,11 @@ class ProductAdapter(private val viewModel: ProductViewModel,
 
 
         holder.binding.textViewItemName.text = currentProduct.itemName.toString()
-        holder.binding.textViewPrice.text = currentProduct.price.toString()
+        holder.binding.textViewPrice.text = currentProduct.price.toString() + "zł"
         holder.binding.textViewCount.text = currentProduct.quantity.toString()
         holder.binding.checkBoxIsBought.isChecked = currentProduct.isBought
+
+
 
         holder.binding.checkBoxIsBought.setOnCheckedChangeListener { _, isChecked ->
             currentProduct.isBought = isChecked
@@ -92,12 +89,14 @@ class ProductAdapter(private val viewModel: ProductViewModel,
             context.bindOnClickListener(currentProduct)
         }
 
+
+
     }
 
     override fun getItemCount(): Int = productList.size
 
 
-    fun createDeletionConfirmationDialog(product: Product) {
+    private fun createDeletionConfirmationDialog(product: Product) {
         val builder = AlertDialog.Builder(context)
         builder.setMessage(R.string.delete_item_message)
         builder.setCancelable(true)
@@ -118,6 +117,7 @@ class ProductAdapter(private val viewModel: ProductViewModel,
         productList = products
         notifyDataSetChanged()
     }
+
 
 }
 
