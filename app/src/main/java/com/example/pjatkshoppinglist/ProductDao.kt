@@ -10,14 +10,14 @@ interface ProductDao {
     fun getProducts(): LiveData<List<Product>>
 
     @Insert
-    fun insert(product: Product)
+    suspend fun insert(product: Product)
 
     @Delete
-    fun delete(product: Product)
+    suspend fun delete(product: Product)
 
     @Update
-    fun update(product: Product)
+    suspend fun update(product: Product)
 
     @Query("Select * from Product where id = :id")
-    fun getById(id: String): Product
+    suspend fun getById(id: String): Product
 }

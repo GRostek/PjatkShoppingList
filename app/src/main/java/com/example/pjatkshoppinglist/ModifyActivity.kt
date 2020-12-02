@@ -5,6 +5,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pjatkshoppinglist.databinding.ActivityAddBinding
 import com.example.pjatkshoppinglist.databinding.ActivityModifyBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ModifyActivity() : AppCompatActivity() {
 
@@ -17,12 +20,21 @@ class ModifyActivity() : AppCompatActivity() {
 
         val productViewModel = ProductViewModel(application)
 
+        var product :Product = Product(
+            itemName = "tmp",
+            price=-1.0,
+            quantity=-1,
+            isBought=false
+        )
 
-        val product = productViewModel.getById(id.toString())
+        CoroutineScope(Dispatchers.IO).launch {
+            product = productViewModel.getById(id.toString())
+            binding.editTextProductName.setText(product.itemName)
+            binding.editTextPrice.setText(product.price.toString())
+            binding.editQuantity.setText(product.quantity.toString())
+        }
 
-        binding.editTextProductName.setText(product.itemName)
-        binding.editTextPrice.setText(product.price.toString())
-        binding.editQuantity.setText(product.quantity.toString())
+
 
         binding.saveButton.setOnClickListener {
             if(binding.editTextProductName.text.toString() == "" || binding.editTextPrice.text.toString() == "" || binding.editQuantity.text.toString() == ""){
@@ -33,7 +45,9 @@ class ModifyActivity() : AppCompatActivity() {
             product.price = binding.editTextPrice.text.toString().toDouble()
             product.quantity = binding.editQuantity.text.toString().toInt()
 
-            productViewModel.update(product)
+            CoroutineScope(Dispatchers.IO).launch {
+                productViewModel.update(product)
+            }
 
             finish()
         }

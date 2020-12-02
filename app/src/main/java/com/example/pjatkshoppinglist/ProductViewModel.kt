@@ -16,11 +16,11 @@ class ProductViewModel(application: Application): AndroidViewModel(application) 
     }
 
 
-    fun insert(product: Product) = repo.insert(product)
+    suspend fun insert(product: Product) = repo.insert(product)
 
-    fun delete(product: Product) = repo.delete(product)
+    suspend fun delete(product: Product) = repo.delete(product)
 
-    fun update(product: Product) = repo.update(product)
+    suspend fun update(product: Product) = repo.update(product)
 
-    fun getById(id:String) = repo.getById(id)
+    suspend fun getById(id:String) = repo.getById(id)
 }

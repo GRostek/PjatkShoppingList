@@ -17,6 +17,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pjatkshoppinglist.databinding.ProductListViewBinding
 import kotlinx.android.synthetic.main.activity_options.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class ProductAdapter(private val viewModel: ProductViewModel,
@@ -76,7 +79,9 @@ class ProductAdapter(private val viewModel: ProductViewModel,
 
         holder.binding.checkBoxIsBought.setOnCheckedChangeListener { _, isChecked ->
             currentProduct.isBought = isChecked
-            viewModel.update(currentProduct)
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.update(currentProduct)
+            }
         }
 
         holder.binding.root.setOnLongClickListener {
@@ -102,7 +107,9 @@ class ProductAdapter(private val viewModel: ProductViewModel,
         builder.setCancelable(true)
 
         builder.setPositiveButton(R.string.delete_item_message_confirmation) { dialog, _ ->
-            viewModel.delete(product)
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.delete(product)
+            }
             Toast.makeText(context, context.getString(R.string.product_remove), Toast.LENGTH_SHORT).show()
             dialog.cancel()
         }
