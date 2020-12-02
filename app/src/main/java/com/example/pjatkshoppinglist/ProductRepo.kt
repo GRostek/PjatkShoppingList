@@ -6,8 +6,8 @@ class ProductRepo(private val productDao: ProductDao) {
 
     val allProducts = productDao.getProducts()
 
-    suspend fun insert(product: Product){
-        productDao.insert(product)
+    suspend fun insert(product: Product): Long{
+        return productDao.insert(product)
     }
 
     suspend fun delete(product: Product){

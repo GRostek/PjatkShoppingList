@@ -2,10 +2,7 @@ package com.example.pjatkshoppinglist
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Resources
-import android.graphics.Color
 import android.util.TypedValue
 
 import android.view.LayoutInflater
@@ -54,6 +51,7 @@ class ProductAdapter(private val viewModel: ProductViewModel,
         val font = sharedPreferences.getFloat("ActualSize", 25.0f)
 
 
+
         if (color != 0) {
             holder.binding.textViewItemName.setTextColor(color)
             holder.binding.textViewPrice.setTextColor(color)
@@ -77,9 +75,9 @@ class ProductAdapter(private val viewModel: ProductViewModel,
 
 
 
-        holder.binding.checkBoxIsBought.setOnCheckedChangeListener { _, isChecked ->
-            currentProduct.isBought = isChecked
+        holder.binding.checkBoxIsBought.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
+                currentProduct.isBought = !currentProduct.isBought
                 viewModel.update(currentProduct)
             }
         }

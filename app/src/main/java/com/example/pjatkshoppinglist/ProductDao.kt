@@ -10,7 +10,7 @@ interface ProductDao {
     fun getProducts(): LiveData<List<Product>>
 
     @Insert
-    suspend fun insert(product: Product)
+    suspend fun insert(product: Product): Long
 
     @Delete
     suspend fun delete(product: Product)

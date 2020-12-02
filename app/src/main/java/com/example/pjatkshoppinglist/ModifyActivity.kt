@@ -1,5 +1,6 @@
 package com.example.pjatkshoppinglist
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ class ModifyActivity() : AppCompatActivity() {
 
         val id = intent.getLongExtra("id",0)
 
+
         val productViewModel = ProductViewModel(application)
 
         var product :Product = Product(
@@ -29,6 +31,9 @@ class ModifyActivity() : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             product = productViewModel.getById(id.toString())
+            if(product == null){
+                finish()
+            }
             binding.editTextProductName.setText(product.itemName)
             binding.editTextPrice.setText(product.price.toString())
             binding.editQuantity.setText(product.quantity.toString())
@@ -49,14 +54,26 @@ class ModifyActivity() : AppCompatActivity() {
                 productViewModel.update(product)
             }
 
-            finish()
+            if(isTaskRoot){
+                val intent1 = Intent(this, MainActivity::class.java)
+                startActivity(intent1)
+                finish()
+            } else {
+                finish()
+            }
         }
 
 
 
 
         binding.backButton.setOnClickListener {
-            finish()
+            if(isTaskRoot){
+                val intent1 = Intent(this, MainActivity::class.java)
+                startActivity(intent1)
+                finish()
+            } else {
+                finish()
+            }
         }
 
 

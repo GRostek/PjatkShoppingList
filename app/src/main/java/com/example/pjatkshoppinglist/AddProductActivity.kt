@@ -1,5 +1,7 @@
 package com.example.pjatkshoppinglist
 
+import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
@@ -23,6 +25,13 @@ class AddProductActivity : AppCompatActivity() {
 
         val productViewModel = ProductViewModel(application)
 
+        val intent = Intent("com.example.productbroadcast.addproduct")
+        intent.component = ComponentName(
+                "com.example.productbroadcast",
+                "com.example.productbroadcast.ProductReceiver"
+        )
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
+
         binding.saveButton.setOnClickListener{
             if(binding.editTextProductName.text.toString() == "" || binding.editTextPrice.text.toString() == "" || binding.editQuantity.text.toString() == ""){
                 Toast.makeText(this,getString(R.string.toast_add_error),Toast.LENGTH_SHORT).show()
@@ -37,8 +46,11 @@ class AddProductActivity : AppCompatActivity() {
             )
             CoroutineScope(Dispatchers.IO).launch {
 
-                productViewModel.insert(product)
+                val productId = productViewModel.insert(product)
+                intent.putExtra("ProductID", productId)
+                intent.putExtra("ProductName", product.itemName)
 
+                sendBroadcast(intent, "com.example.pjatkshoppinglist.NOTIFICATION_PERMISSION")
             }
             Toast.makeText(
                     this,

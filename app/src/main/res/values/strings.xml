@@ -23,5 +23,6 @@
     <string name="text_size_toast">Please enter value between 10 and 64</string>
     <string name="empty_font_size_toast">Please enter font size value</string>
     <string name="toast_add_error">Please fill in all the fields</string>
+    <string name="add_product_intent" translatable="false">com.example.pjatkshoppinglist.ADD_PRODUCT</string>
 
 </resources>
