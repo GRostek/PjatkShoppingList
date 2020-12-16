@@ -24,4 +24,11 @@
     <string name="text_size_toast">Proszę wprowadzić wartość pomiędzy 10 a 64</string>
     <string name="empty_font_size_toast">Proszę wprowadzić rozmiar czcionki</string>
     <string name="toast_add_error">Proszę wypełnić wszystkie pola</string>
+    <string name="email">Email</string>
+    <string name="password">Hasło</string>
+    <string name="login_register">Zaloguj się / Zarejestruj się</string>
+    <string name="user_registered">Użytkownik zarejestrowany</string>
+    <string name="registration_failed">Rejestracja nie powiodła się</string>
+    <string name="login_successful">Zalogowano pomyślnie</string>
+    <string name="login_failed">Błąd logowania</string>
 </resources>
