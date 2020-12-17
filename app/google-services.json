@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "453616729393",
+    "project_id": "pjatkshoppinglist",
+    "storage_bucket": "pjatkshoppinglist.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453616729393:android:91060e31a14027e4d80410",
+        "android_client_info": {
+          "package_name": "com.example.pjatkshoppinglist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "453616729393-o330r35rns6qhas89uu9pg7jhh531avn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvvphV1KDfNtbeO37_XYNP9ti1pGY8HTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "453616729393-o330r35rns6qhas89uu9pg7jhh531avn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

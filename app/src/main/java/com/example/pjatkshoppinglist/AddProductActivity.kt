@@ -3,17 +3,14 @@ package com.example.pjatkshoppinglist
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.pjatkshoppinglist.roomdb.ProductViewModel
 import com.example.pjatkshoppinglist.databinding.ActivityAddBinding
-import com.example.pjatkshoppinglist.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
 
 
 class AddProductActivity : AppCompatActivity() {

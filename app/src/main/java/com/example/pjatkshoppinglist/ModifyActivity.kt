@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pjatkshoppinglist.databinding.ActivityAddBinding
+import com.example.pjatkshoppinglist.roomdb.ProductViewModel
 import com.example.pjatkshoppinglist.databinding.ActivityModifyBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

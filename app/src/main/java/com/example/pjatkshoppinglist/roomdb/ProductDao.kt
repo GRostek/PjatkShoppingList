@@ -1,7 +1,8 @@
-package com.example.pjatkshoppinglist
+package com.example.pjatkshoppinglist.roomdb
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.pjatkshoppinglist.Product
 
 @Dao
 interface ProductDao {

@@ -1,8 +1,9 @@
-package com.example.pjatkshoppinglist
+package com.example.pjatkshoppinglist.roomdb
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.example.pjatkshoppinglist.Product
 
 class ProductViewModel(application: Application): AndroidViewModel(application) {
 
