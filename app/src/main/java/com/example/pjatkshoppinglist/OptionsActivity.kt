@@ -2,15 +2,15 @@ package com.example.pjatkshoppinglist
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Color
+
 import android.os.Bundle
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+
 import com.example.pjatkshoppinglist.databinding.ActivityOptionsBinding
 import kotlinx.android.synthetic.main.activity_add.backButton
-import kotlinx.android.synthetic.main.activity_main.*
+
 import kotlinx.android.synthetic.main.activity_options.*
 
 class OptionsActivity: AppCompatActivity() {

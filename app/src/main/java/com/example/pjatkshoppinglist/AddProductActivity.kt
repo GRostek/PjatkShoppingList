@@ -6,21 +6,36 @@ import android.os.Bundle
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pjatkshoppinglist.roomdb.ProductViewModel
 import com.example.pjatkshoppinglist.databinding.ActivityAddBinding
+import com.example.pjatkshoppinglist.firebasedb.ProductViewModelFirebase
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
+
 
 
 class AddProductActivity : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+
+    @InternalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        auth = FirebaseAuth.getInstance()
 
-        val productViewModel = ProductViewModel(application)
+        val user = auth.currentUser?.uid
+        var productViewModel: ProductViewModelFirebase
+
+        productViewModel = if(user != null){
+            ProductViewModelFirebase(application, user)
+        } else{
+            ProductViewModelFirebase(application, "")
+        }
+
 
         val intent = Intent("com.example.productbroadcast.addproduct")
         intent.component = ComponentName(
@@ -37,7 +52,7 @@ class AddProductActivity : AppCompatActivity() {
 
             val product = Product(
                     itemName = binding.editTextProductName.text.toString(),
-                    price = binding.editTextPrice.text.toString().toDouble(),
+                    price = binding.editTextPrice.text.toString(),
                     quantity = binding.editQuantity.text.toString().toInt(),
                     isBought = false
             )

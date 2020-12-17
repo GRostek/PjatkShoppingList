@@ -4,40 +4,49 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pjatkshoppinglist.roomdb.ProductViewModel
 import com.example.pjatkshoppinglist.databinding.ActivityModifyBinding
+import com.example.pjatkshoppinglist.firebasedb.ProductViewModelFirebase
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ModifyActivity() : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityModifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val id = intent.getLongExtra("id",0)
+        val product = intent.getSerializableExtra("id") as Product
 
 
-        val productViewModel = ProductViewModel(application)
 
-        var product :Product = Product(
-            itemName = "tmp",
-            price=-1.0,
-            quantity=-1,
-            isBought=false
-        )
 
-        CoroutineScope(Dispatchers.IO).launch {
-            product = productViewModel.getById(id.toString())
+        auth = FirebaseAuth.getInstance()
+
+
+        val user = auth.currentUser?.uid
+        var productViewModel: ProductViewModelFirebase
+
+        productViewModel = if(user != null){
+            ProductViewModelFirebase(application, user)
+        } else{
+            ProductViewModelFirebase(application, "")
+        }
+
+
+        //CoroutineScope(Dispatchers.IO).launch {
+            /*product = id?.let { productViewModel.getById(it) }!!
             if(product == null){
                 finish()
-            }
+            }*/
             binding.editTextProductName.setText(product.itemName)
             binding.editTextPrice.setText(product.price.toString())
             binding.editQuantity.setText(product.quantity.toString())
-        }
+        //}
 
 
 
@@ -47,7 +56,7 @@ class ModifyActivity() : AppCompatActivity() {
                 return@setOnClickListener
             }
             product.itemName = binding.editTextProductName.text.toString()
-            product.price = binding.editTextPrice.text.toString().toDouble()
+            product.price = binding.editTextPrice.text.toString()
             product.quantity = binding.editQuantity.text.toString().toInt()
 
             CoroutineScope(Dispatchers.IO).launch {

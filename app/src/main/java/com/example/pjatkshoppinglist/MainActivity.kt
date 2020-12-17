@@ -7,23 +7,30 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pjatkshoppinglist.roomdb.ProductViewModel
 import com.example.pjatkshoppinglist.databinding.ActivityMainBinding
+import com.example.pjatkshoppinglist.firebasedb.ProductViewModelFirebase
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.InternalCoroutinesApi
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
 
+    private lateinit var auth: FirebaseAuth
 
 
 
+
+    @InternalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //sharedPreferences = getPreferences(Context.MODE_PRIVATE)
         sharedPreferences = getSharedPreferences("ShoppingApp", Context.MODE_PRIVATE)
+
+        auth = FirebaseAuth.getInstance()
 
 
         initiateProductListLayoutManager()
@@ -38,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @InternalCoroutinesApi
     override fun onResume() {
         super.onResume()
 
@@ -64,16 +72,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @InternalCoroutinesApi
     private fun initiateProductListLayoutManager(){
         productList.layoutManager = LinearLayoutManager(this)
         productList.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
 
-        val productViewModel = ProductViewModel(application)
+
+        val user = auth.currentUser?.uid
+        var productViewModel: ProductViewModelFirebase
+
+        productViewModel = if(user != null){
+            ProductViewModelFirebase(application, user)
+        } else{
+            ProductViewModelFirebase(application, "")
+        }
         val adapter = ProductAdapter(productViewModel, this)
         productViewModel.allProducts.observe(this, {products ->
             products?.let{
-                adapter.setProducts(it)
+                adapter.setProducts(it.values.toList())
             }
         })
 
@@ -82,10 +99,11 @@ class MainActivity : AppCompatActivity() {
 
     fun bindOnClickListener(currentProduct: Product){
         val intent = Intent(this, ModifyActivity::class.java)
-        intent.putExtra("id",currentProduct.id.toLong())
+        intent.putExtra("id",currentProduct)
         startActivity(intent)
     }
 
+    @InternalCoroutinesApi
     private fun redrawAdapter(){
 
         val adapter = productList.adapter as ProductAdapter

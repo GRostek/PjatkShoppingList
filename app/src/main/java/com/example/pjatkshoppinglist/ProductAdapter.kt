@@ -12,14 +12,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pjatkshoppinglist.roomdb.ProductViewModel
+
 import com.example.pjatkshoppinglist.databinding.ProductListViewBinding
+import com.example.pjatkshoppinglist.firebasedb.ProductViewModelFirebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 
 
-class ProductAdapter(private val viewModel: ProductViewModel,
+@InternalCoroutinesApi
+class ProductAdapter(private val viewModel: ProductViewModelFirebase,
                      private val context: AppCompatActivity): RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
 
@@ -68,28 +71,40 @@ class ProductAdapter(private val viewModel: ProductViewModel,
         }
 
 
-        holder.binding.textViewItemName.text = currentProduct.itemName.toString()
-        holder.binding.textViewPrice.text = currentProduct.price.toString() + "zł"
-        holder.binding.textViewCount.text = currentProduct.quantity.toString()
-        holder.binding.checkBoxIsBought.isChecked = currentProduct.isBought
+        if (currentProduct != null) {
+            holder.binding.textViewItemName.text = currentProduct.itemName.toString()
+            holder.binding.textViewPrice.text = currentProduct.price.toString() + "zł"
+            holder.binding.textViewCount.text = currentProduct.quantity.toString()
+            holder.binding.checkBoxIsBought.isChecked = currentProduct.isBought
+            println("ID:"+currentProduct.id)
+        }
+
+
+
 
 
 
         holder.binding.checkBoxIsBought.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                currentProduct.isBought = !currentProduct.isBought
-                viewModel.update(currentProduct)
+                if (currentProduct != null) {
+                    currentProduct.isBought = !currentProduct.isBought
+                    viewModel.update(currentProduct)
+                }
             }
         }
 
         holder.binding.root.setOnLongClickListener {
-            createDeletionConfirmationDialog(currentProduct)
+            if (currentProduct != null) {
+                createDeletionConfirmationDialog(currentProduct)
+            }
             true
         }
 
         holder.binding.root.setOnClickListener {
             context as MainActivity
-            context.bindOnClickListener(currentProduct)
+            if (currentProduct != null) {
+                context.bindOnClickListener(currentProduct)
+            }
         }
 
 
