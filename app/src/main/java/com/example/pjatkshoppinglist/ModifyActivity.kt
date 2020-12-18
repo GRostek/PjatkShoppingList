@@ -15,12 +15,15 @@ class ModifyActivity() : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    private var isShared = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityModifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val product = intent.getSerializableExtra("id") as Product
+        isShared = intent.getBooleanExtra("isShared", false)
 
 
 
@@ -32,9 +35,9 @@ class ModifyActivity() : AppCompatActivity() {
         var productViewModel: ProductViewModelFirebase
 
         productViewModel = if(user != null){
-            ProductViewModelFirebase(application, user)
+            ProductViewModelFirebase(application, user, isShared)
         } else{
-            ProductViewModelFirebase(application, "")
+            ProductViewModelFirebase(application, "", isShared)
         }
 
 

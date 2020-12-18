@@ -31,5 +31,8 @@
     <string name="registration_failed">Registration failed</string>
     <string name="login_successful">Login successful</string>
     <string name="login_failed">Login failed</string>
+    <string name="togglebutton" translatable="false">ToggleButton</string>
+    <string name="private_">Private</string>
+    <string name="shared">Shared</string>
 
 </resources>

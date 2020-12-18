@@ -4,18 +4,23 @@ package com.example.pjatkshoppinglist.firebasedb
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.pjatkshoppinglist.Product
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 
-class ProductDBFirebase(user: String) {
+class ProductDBFirebase(user: String, isShared: Boolean) {
     val allProducts = MutableLiveData<Map<String, Product>>()
     private val db = FirebaseDatabase.getInstance("https://pjatkshoppinglist-default-rtdb.europe-west1.firebasedatabase.app/")
-    private val ref = db.getReference("$user/products")
+
+    private var ref :DatabaseReference = db.getReference("users/$user/products")
+
+    //private val refPriv = db.getReference("users/$user/products")
+    private val revShared = db.getReference("products")
 
     init {
+
+        if(isShared){
+            ref = revShared
+        }
 
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -81,9 +86,9 @@ class ProductDBFirebase(user: String) {
     }*/
 
     suspend fun insert(product: Product): String?  {
-        val id = ref.push().key
+        val id = this.ref.push().key
         return if (id != null) {
-            ref.child(id).setValue(product.toMap())
+            this.ref.child(id).setValue(product.toMap())
             id
         } else
             null
@@ -93,12 +98,12 @@ class ProductDBFirebase(user: String) {
     suspend fun delete(product: Product){
         val id = product.id
         if (id != null)
-            ref.child(id).removeValue()
+            this.ref.child(id).removeValue()
     }
 
     suspend fun update(product: Product){
         val id = product.id
         if (id != null)
-            ref.child(id).updateChildren(product.toMap())
+            this.ref.child(id).updateChildren(product.toMap())
     }
 }

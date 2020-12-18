@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    private var isShared = false
+
 
 
 
@@ -32,6 +34,13 @@ class MainActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+
+
+        toggleButton.setOnCheckedChangeListener{ _, isPressed ->
+            isShared = isPressed
+            initiateProductListLayoutManager()
+            redrawAdapter()
+        }
 
         initiateProductListLayoutManager()
 
@@ -61,6 +70,7 @@ class MainActivity : AppCompatActivity() {
     private fun setAddButtonListeners(){
         addButton.setOnClickListener{
             val intent = Intent(this, AddProductActivity::class.java)
+            intent.putExtra("isShared", isShared)
             startActivity(intent)
         }
     }
@@ -83,9 +93,9 @@ class MainActivity : AppCompatActivity() {
         var productViewModel: ProductViewModelFirebase
 
         productViewModel = if(user != null){
-            ProductViewModelFirebase(application, user)
+            ProductViewModelFirebase(application, user, isShared)
         } else{
-            ProductViewModelFirebase(application, "")
+            ProductViewModelFirebase(application, "", isShared)
         }
         val adapter = ProductAdapter(productViewModel, this)
         productViewModel.allProducts.observe(this, {products ->
@@ -100,6 +110,7 @@ class MainActivity : AppCompatActivity() {
     fun bindOnClickListener(currentProduct: Product){
         val intent = Intent(this, ModifyActivity::class.java)
         intent.putExtra("id",currentProduct)
+        intent.putExtra("isShared", isShared)
         startActivity(intent)
     }
 

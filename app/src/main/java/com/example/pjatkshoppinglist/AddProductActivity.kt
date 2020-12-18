@@ -20,6 +20,8 @@ class AddProductActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    private var isShared = false
+
     @InternalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +29,15 @@ class AddProductActivity : AppCompatActivity() {
         setContentView(binding.root)
         auth = FirebaseAuth.getInstance()
 
+        isShared = intent.getBooleanExtra("isShared", false)
+
         val user = auth.currentUser?.uid
         var productViewModel: ProductViewModelFirebase
 
         productViewModel = if(user != null){
-            ProductViewModelFirebase(application, user)
+            ProductViewModelFirebase(application, user, isShared)
         } else{
-            ProductViewModelFirebase(application, "")
+            ProductViewModelFirebase(application, "", isShared)
         }
 
 

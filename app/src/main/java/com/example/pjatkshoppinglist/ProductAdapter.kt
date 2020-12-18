@@ -76,7 +76,6 @@ class ProductAdapter(private val viewModel: ProductViewModelFirebase,
             holder.binding.textViewPrice.text = currentProduct.price.toString() + "zł"
             holder.binding.textViewCount.text = currentProduct.quantity.toString()
             holder.binding.checkBoxIsBought.isChecked = currentProduct.isBought
-            println("ID:"+currentProduct.id)
         }
 
 

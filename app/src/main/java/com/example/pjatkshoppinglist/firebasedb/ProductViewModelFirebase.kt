@@ -7,9 +7,9 @@ import androidx.lifecycle.LiveData
 import com.example.pjatkshoppinglist.Product
 
 
-class ProductViewModelFirebase(application: Application, user: String) : AndroidViewModel(application) {
+class ProductViewModelFirebase(application: Application, user: String, isShared: Boolean) : AndroidViewModel(application) {
 
-    private val repo: ProductDBFirebase = ProductDBFirebase(user)
+    private val repo: ProductDBFirebase = ProductDBFirebase(user, isShared)
     val allProducts: LiveData<Map<String, Product>>
 
     init {

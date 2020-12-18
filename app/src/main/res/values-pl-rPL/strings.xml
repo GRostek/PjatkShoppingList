@@ -31,4 +31,6 @@
     <string name="registration_failed">Rejestracja nie powiodła się</string>
     <string name="login_successful">Zalogowano pomyślnie</string>
     <string name="login_failed">Błąd logowania</string>
+    <string name="shared">Wspólna</string>
+    <string name="private_">Prywatna</string>
 </resources>
