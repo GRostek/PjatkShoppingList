@@ -10,7 +10,7 @@ import com.example.pjatkshoppinglist.db.dao.ShopDao
 import com.example.pjatkshoppinglist.db.model.Shop
 
 
-@Database(entities = [Product::class, Shop::class], version = 1)
+@Database(entities = [Product::class, Shop::class], version = 2)
 abstract class ProductDB : RoomDatabase() {
 
     abstract fun productDao(): ProductDao
@@ -26,7 +26,8 @@ abstract class ProductDB : RoomDatabase() {
                 context.applicationContext,
                 ProductDB::class.java,
                 "ProductDatabase"
-            ).build()
+            ).fallbackToDestructiveMigration() // TODO add migration without deleting data
+                .build()
             return instance as ProductDB
         }
 

@@ -25,5 +25,7 @@
     <string name="toast_add_error">Please fill in all the fields</string>
     <string name="add_product_intent" translatable="false">com.example.pjatkshoppinglist.ADD_PRODUCT</string>
     <string name="shops">Shops</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="map">Map</string>
 
 </resources>

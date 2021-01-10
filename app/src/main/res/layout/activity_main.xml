@@ -47,14 +47,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/shopsButton"
+        android:id="@+id/mapButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="154dp"
         android:layout_marginTop="27dp"
         android:layout_marginEnd="164dp"
         android:layout_marginBottom="85dp"
-        android:text="@string/shops"
+        android:text="@string/map"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

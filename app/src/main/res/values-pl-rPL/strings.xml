@@ -25,4 +25,6 @@
     <string name="empty_font_size_toast">Proszę wprowadzić rozmiar czcionki</string>
     <string name="toast_add_error">Proszę wypełnić wszystkie pola</string>
     <string name="shops">Sklepy</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="map">Mapa</string>
 </resources>
