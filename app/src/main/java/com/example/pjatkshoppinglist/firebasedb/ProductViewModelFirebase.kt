@@ -22,6 +22,5 @@ class ProductViewModelFirebase(application: Application, user: String, isShared:
 
     suspend fun update(product: Product) = repo.update(product)
 
-    //suspend fun getById(id:String) = repo.getById(id)
 
 }
