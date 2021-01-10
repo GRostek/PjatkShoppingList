@@ -1,4 +1,4 @@
-package com.example.pjatkshoppinglist
+package com.example.pjatkshoppinglist.adapter
 
 import android.app.AlertDialog
 import android.content.Context
@@ -12,8 +12,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pjatkshoppinglist.R
+import com.example.pjatkshoppinglist.activity.MainActivity
 import com.example.pjatkshoppinglist.databinding.ProductListViewBinding
-import kotlinx.android.synthetic.main.activity_options.*
+import com.example.pjatkshoppinglist.db.model.Product
+import com.example.pjatkshoppinglist.db.viewmodel.ProductViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

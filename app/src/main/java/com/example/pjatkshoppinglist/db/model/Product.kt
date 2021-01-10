@@ -1,4 +1,4 @@
-package com.example.pjatkshoppinglist
+package com.example.pjatkshoppinglist.db.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

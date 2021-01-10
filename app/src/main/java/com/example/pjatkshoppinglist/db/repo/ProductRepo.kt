@@ -1,6 +1,7 @@
-package com.example.pjatkshoppinglist
+package com.example.pjatkshoppinglist.db.repo
 
-import androidx.lifecycle.LiveData
+import com.example.pjatkshoppinglist.db.dao.ProductDao
+import com.example.pjatkshoppinglist.db.model.Product
 
 class ProductRepo(private val productDao: ProductDao) {
 

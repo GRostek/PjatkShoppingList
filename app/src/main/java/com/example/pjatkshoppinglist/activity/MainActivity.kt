@@ -1,15 +1,16 @@
-package com.example.pjatkshoppinglist
+package com.example.pjatkshoppinglist.activity
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.pjatkshoppinglist.adapter.ProductAdapter
 import com.example.pjatkshoppinglist.databinding.ActivityMainBinding
+import com.example.pjatkshoppinglist.db.model.Product
+import com.example.pjatkshoppinglist.db.viewmodel.ProductViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

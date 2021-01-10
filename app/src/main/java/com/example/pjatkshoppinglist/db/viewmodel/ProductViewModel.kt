@@ -1,8 +1,12 @@
-package com.example.pjatkshoppinglist
+package com.example.pjatkshoppinglist.db.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.example.pjatkshoppinglist.db.ProductDB
+import com.example.pjatkshoppinglist.db.dao.ProductDao
+import com.example.pjatkshoppinglist.db.model.Product
+import com.example.pjatkshoppinglist.db.repo.ProductRepo
 
 class ProductViewModel(application: Application): AndroidViewModel(application) {
 

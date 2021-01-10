@@ -1,11 +1,13 @@
-package com.example.pjatkshoppinglist
+package com.example.pjatkshoppinglist.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pjatkshoppinglist.databinding.ActivityAddBinding
+import com.example.pjatkshoppinglist.R
 import com.example.pjatkshoppinglist.databinding.ActivityModifyBinding
+import com.example.pjatkshoppinglist.db.model.Product
+import com.example.pjatkshoppinglist.db.viewmodel.ProductViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +24,7 @@ class ModifyActivity() : AppCompatActivity() {
 
         val productViewModel = ProductViewModel(application)
 
-        var product :Product = Product(
+        var product : Product = Product(
             itemName = "tmp",
             price=-1.0,
             quantity=-1,
