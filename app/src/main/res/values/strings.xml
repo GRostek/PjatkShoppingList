@@ -27,5 +27,8 @@
     <string name="shops">Shops</string>
     <string name="title_activity_maps">Map</string>
     <string name="map">Map</string>
+    <string name="shop_name">Shop name</string>
+    <string name="description">Description</string>
+    <string name="radius">Radius</string>
 
 </resources>

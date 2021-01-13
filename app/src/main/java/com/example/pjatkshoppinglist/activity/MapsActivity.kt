@@ -1,9 +1,15 @@
 package com.example.pjatkshoppinglist.activity
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 
 import com.example.pjatkshoppinglist.R
+import com.example.pjatkshoppinglist.adapter.MapsPageAdapter
+import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -11,35 +17,39 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.activity_maps.*
+import java.util.*
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
-
-    private lateinit var mMap: GoogleMap
+class MapsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+
+        //setSupportActionBar(toolbar)
+
+        //Aby przy uzywaniu mapy nie przechodzic do activity z lista
+        viewPager.isUserInputEnabled = false
+
+        tabLayout.addTab(tabLayout.newTab())
+        tabLayout.addTab(tabLayout.newTab())
+
+        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
+
+        val mapsPageAdapter = MapsPageAdapter(this, tabLayout.tabCount)
+        viewPager.adapter = mapsPageAdapter
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            when(position){
+                0 -> tab.text = R.string.map.toString().toLowerCase(Locale.ROOT)
+                1 -> tab.text = R.string.shops.toString().toLowerCase(Locale.ROOT)
+            }
+        }.attach()
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-    }
+
+
+
 }

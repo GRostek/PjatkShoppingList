@@ -10,7 +10,7 @@ import com.example.pjatkshoppinglist.db.dao.ShopDao
 import com.example.pjatkshoppinglist.db.model.Shop
 
 
-@Database(entities = [Product::class, Shop::class], version = 2)
+@Database(entities = [Product::class, Shop::class], version = 3)
 abstract class ProductDB : RoomDatabase() {
 
     abstract fun productDao(): ProductDao
