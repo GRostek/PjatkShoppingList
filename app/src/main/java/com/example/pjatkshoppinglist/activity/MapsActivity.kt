@@ -2,6 +2,7 @@ package com.example.pjatkshoppinglist.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -38,14 +39,21 @@ class MapsActivity : AppCompatActivity() {
 
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
+
+
         val mapsPageAdapter = MapsPageAdapter(this, tabLayout.tabCount)
         viewPager.adapter = mapsPageAdapter
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when(position){
-                0 -> tab.text = R.string.map.toString().toLowerCase(Locale.ROOT)
-                1 -> tab.text = R.string.shops.toString().toLowerCase(Locale.ROOT)
+                0 -> tab.text = getString(R.string.map)
+                1 -> tab.text = getString(R.string.shops)
             }
         }.attach()
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 
