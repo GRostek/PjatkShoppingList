@@ -19,6 +19,7 @@ class ShopViewModel(application: Application): AndroidViewModel(application) {
         allShops = repo.allShops
     }
 
+    suspend fun getShopsAsync() = repo.getShopsAsync()
 
     suspend fun insert(shop: Shop) = repo.insert(shop)
 

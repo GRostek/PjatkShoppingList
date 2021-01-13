@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.pjatkshoppinglist.R
+import com.example.pjatkshoppinglist.db.model.Shop
 import com.example.pjatkshoppinglist.db.viewmodel.ShopViewModel
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,7 +24,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_map.*
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
@@ -134,7 +137,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
         //TODO Tutaj ladowanie markerow z bazy danych w petli
-        addMarkers()
+
+
+            addMarkers()
+
     }
 
 
@@ -145,19 +151,28 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun addMarkers(){
         val shopViewModel = ShopViewModel(activity!!.application)
-        val markersList = shopViewModel.allShops.value
+
+        var markersList = emptyList<Shop>()
+        CoroutineScope(Dispatchers.IO).launch {
+            markersList = shopViewModel.getShopsAsync()
+
+            CoroutineScope(Dispatchers.Main).launch{
+                for(m in markersList!!.iterator()){
+
+                    val shopMarker = LatLng(m.latitude, m.longitude)
+
+                    mMap.addMarker(
+                            MarkerOptions()
+                                    .position(shopMarker)
+                                    .title(m.name)
+                                    .snippet(m.description))
+                }
+            }
 
 
-
-        for(m in markersList!!.iterator()){
-
-            val shopMarker = LatLng(m.latitude, m.longitude)
-
-            mMap.addMarker(
-                    MarkerOptions()
-                            .position(shopMarker)
-                            .title(m.name)
-                            .snippet(m.description))
         }
+
+
+
     }
 }

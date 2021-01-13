@@ -11,6 +11,9 @@ interface ShopDao {
     @Query("Select * from Shop")
     fun getShops(): LiveData<List<Shop>>
 
+    @Query("Select * from Shop")
+    suspend fun getShopsAsync(): List<Shop>
+
     @Insert
     suspend fun insert(shop: Shop): Long
 

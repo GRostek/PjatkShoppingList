@@ -7,6 +7,10 @@ class ShopRepo(private val shopDao: ShopDao) {
 
     val allShops = shopDao.getShops()
 
+    suspend fun  getShopsAsync(): List<Shop>{
+        return shopDao.getShopsAsync()
+    }
+
     suspend fun insert(shop: Shop): Long{
         return shopDao.insert(shop)
     }
