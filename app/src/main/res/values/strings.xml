@@ -30,5 +30,6 @@
     <string name="shop_name">Shop name</string>
     <string name="description">Description</string>
     <string name="radius">Radius</string>
+    <string name="shop_removed">Shop has been removed</string>
 
 </resources>
