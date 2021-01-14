@@ -48,6 +48,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private var geoId = 0
 
     private val markerList = mutableListOf<Marker>()
+    private val pendingIntentList = mutableListOf<PendingIntent>()
 
 
 
@@ -183,14 +184,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private fun addMarkers(){
         val shopViewModel = ShopViewModel(activity!!.application)
 
-        var markersList = emptyList<Shop>()
+        var markersList: List<Shop>
         CoroutineScope(Dispatchers.IO).launch {
             markersList = shopViewModel.getShopsAsync()
 
 
             CoroutineScope(Dispatchers.Main).launch{
 
-                for(m in markersList!!.iterator()){
+                for(m in markersList.iterator()){
 
                     val shopMarker = LatLng(m.latitude, m.longitude)
 
@@ -203,7 +204,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
                     addGeo(shopMarker, m.name, m.radius)
                 }
-                if(!isZoomed) {
+                if(!isZoomed && markersList.size > 0) {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerList[markerList.size - 1].position, 10f))
                     isZoomed = true
                 }
@@ -218,6 +219,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun removeMarkers(){
         mMap.clear()
+        markerList.clear()
+        for(p in pendingIntentList)
+            geofencingClient.removeGeofences(p)
+        pendingIntentList.clear()
     }
 
     private fun redrawMarkers(){
@@ -247,11 +252,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         val geofenceRequest = GeofencingRequest.Builder()
                 .addGeofence(geofence)
-                .setInitialTrigger(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT)
+                .setInitialTrigger(Geofence.GEOFENCE_TRANSITION_ENTER)
                 .build()
 
         val intent = Intent(activity!!, GeofenceReceiver::class.java)
-
         intent.putExtra("name", name)
 
         val pendingIntent = PendingIntent.getBroadcast(
@@ -262,6 +266,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         )
 
         geofencingClient.addGeofences(geofenceRequest, pendingIntent)
+
+        pendingIntentList.add(pendingIntent)
 
 
     }
