@@ -10,6 +10,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Camera
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_map.*
 import kotlinx.coroutines.CoroutineScope
@@ -32,6 +34,13 @@ import kotlinx.coroutines.launch
 class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+
+    var isMapReady = false
+    var isZoomed = false
+
+    private val markerList = mutableListOf<Marker>()
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //return super.onCreateView(inflater, container, savedInstanceState)
@@ -109,6 +118,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         if(resultCode == Activity.RESULT_OK){
             if(activity != null) {
+                /*
                 val name = data!!.getStringExtra("name")
                 val description = data!!.getStringExtra("description")
 
@@ -116,23 +126,35 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 val longitude= data!!.getDoubleExtra("longitude", 0.0)
                 val radius = data!!.getDoubleExtra("radius", 0.0)
 
+                val id = data!!.getLongExtra("id", -1)
+
                 val shopMarker = LatLng(latitude, longitude)
 
 
-                mMap.addMarker(
-                    MarkerOptions()
-                        .position(shopMarker)
-                        .title(name)
-                        .snippet(description))
+
+
+                val marker = mMap.addMarker(
+                        MarkerOptions()
+                            .position(shopMarker)
+                            .title(name)
+                            .snippet(description))
+                */
+
+                redrawMarkers()
+
+
+
             }
         }
     }
+
 
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.isMyLocationEnabled = true
+        isMapReady = true
 
 
 
@@ -141,7 +163,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
             addMarkers()
 
+        val shopViewModel = ShopViewModel(activity!!.application)
+        shopViewModel.allShops.observe(this, { _ ->
+            redrawMarkers()
+        })
+
+
     }
+
+
 
 
     /*override fun onAttach(context: Context) {
@@ -156,16 +186,23 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         CoroutineScope(Dispatchers.IO).launch {
             markersList = shopViewModel.getShopsAsync()
 
+
             CoroutineScope(Dispatchers.Main).launch{
+
                 for(m in markersList!!.iterator()){
 
                     val shopMarker = LatLng(m.latitude, m.longitude)
 
-                    mMap.addMarker(
+                    val marker = mMap.addMarker(
                             MarkerOptions()
                                     .position(shopMarker)
                                     .title(m.name)
                                     .snippet(m.description))
+                    markerList.add(marker)
+                }
+                if(!isZoomed) {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerList[markerList.size - 1].position, 10f))
+                    isZoomed = true
                 }
             }
 
@@ -175,4 +212,23 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
     }
+
+    private fun removeMarkers(){
+        mMap.clear()
+    }
+
+    private fun redrawMarkers(){
+        removeMarkers()
+        addMarkers()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        if(isMapReady)
+            redrawMarkers()
+    }
+
+
+
 }

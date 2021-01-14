@@ -36,9 +36,9 @@ class AddShopActivity : AppCompatActivity() {
                 longitude = longitude
             )
 
-
+            var id = -1L
             CoroutineScope(Dispatchers.IO).launch {
-                shopViewModel.insert(shop)
+                id = shopViewModel.insert(shop)
             }
 
             Toast.makeText(
@@ -53,6 +53,7 @@ class AddShopActivity : AppCompatActivity() {
             intent.putExtra("name", shop.name)
             intent.putExtra("description", shop.description)
             intent.putExtra("radius", shop.radius)
+            intent.putExtra("id", id)
             setResult(RESULT_OK, intent)
             finish()
             }
