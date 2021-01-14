@@ -31,7 +31,7 @@ class AddShopActivity : AppCompatActivity() {
             val shop = Shop(
                 name = editTextShopName.text.toString(),
                 description = editTextDescription.text.toString(),
-                radius = editRadius.text.toString().toDouble(),
+                radius = editRadius.text.toString().toFloat(),
                 latitude = latitude,
                 longitude = longitude
             )

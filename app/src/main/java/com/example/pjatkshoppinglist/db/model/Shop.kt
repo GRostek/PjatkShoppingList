@@ -10,6 +10,6 @@ data class Shop(
         var description: String,
         var latitude: Double,
         var longitude: Double,
-        var radius: Double
+        var radius: Float
 ) {
 }

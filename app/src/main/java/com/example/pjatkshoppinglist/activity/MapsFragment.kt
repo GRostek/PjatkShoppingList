@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.Manifest
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Camera
@@ -17,6 +18,10 @@ import androidx.fragment.app.FragmentManager
 import com.example.pjatkshoppinglist.R
 import com.example.pjatkshoppinglist.db.model.Shop
 import com.example.pjatkshoppinglist.db.viewmodel.ShopViewModel
+import com.example.pjatkshoppinglist.receiver.GeofenceReceiver
+import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingClient
+import com.google.android.gms.location.GeofencingRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -35,8 +40,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
+    private lateinit var geofencingClient: GeofencingClient
+
     var isMapReady = false
     var isZoomed = false
+
+    private var geoId = 0
 
     private val markerList = mutableListOf<Marker>()
 
@@ -75,14 +84,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             requestPermissions(perms, 0)
         }
 
-
-        println(ActivityCompat.checkSelfPermission(activity!!.applicationContext,
-                Manifest.permission.ACCESS_FINE_LOCATION))
-        println(ActivityCompat.checkSelfPermission(
-                activity!!.applicationContext,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        ))
-
+        geofencingClient = LocationServices.getGeofencingClient(activity!!)
 
         val mapFragment = childFragmentManager
                 .findFragmentById(R.id.map_fragment) as SupportMapFragment
@@ -158,7 +160,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
 
-        //TODO Tutaj ladowanie markerow z bazy danych w petli
 
 
             addMarkers()
@@ -199,6 +200,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                                     .title(m.name)
                                     .snippet(m.description))
                     markerList.add(marker)
+
+                    addGeo(shopMarker, m.name, m.radius)
                 }
                 if(!isZoomed) {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerList[markerList.size - 1].position, 10f))
@@ -227,6 +230,40 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         super.onResume()
         if(isMapReady)
             redrawMarkers()
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private fun addGeo(shopMarker: LatLng, name: String, radius: Float){
+        val geofence = Geofence.Builder()
+                .setRequestId("Geo${geoId++}")
+                .setCircularRegion(
+                        shopMarker.latitude,
+                        shopMarker.longitude,
+                        radius)
+                .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT)
+                .build()
+
+        val geofenceRequest = GeofencingRequest.Builder()
+                .addGeofence(geofence)
+                .setInitialTrigger(Geofence.GEOFENCE_TRANSITION_ENTER or Geofence.GEOFENCE_TRANSITION_EXIT)
+                .build()
+
+        val intent = Intent(activity!!, GeofenceReceiver::class.java)
+
+        intent.putExtra("name", name)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+                activity!!,
+                geoId,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        geofencingClient.addGeofences(geofenceRequest, pendingIntent)
+
+
     }
 
 
