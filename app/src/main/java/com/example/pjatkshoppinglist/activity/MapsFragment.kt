@@ -106,7 +106,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                         val intent = Intent(activity!!.applicationContext, AddShopActivity::class.java)
                         intent.putExtra("latitude", it.result.latitude)
                         intent.putExtra("longitude", it.result.longitude)
-                        println("wysylam: " + it.result.latitude + " " + it.result.longitude)
                         startActivityForResult(intent, 111)
                     }
         }
