@@ -31,4 +31,5 @@
     <string name="description">Opis</string>
     <string name="radius">Promień</string>
     <string name="shop_removed">Sklep został usunięty</string>
+    <string name="pjatk_shopping_list_app">PJATK Shopping List App</string>
 </resources>

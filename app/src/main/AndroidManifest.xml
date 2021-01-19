@@ -19,13 +19,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PjatkShoppingList">
+        <receiver android:name=".activity.PjatkAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/pjatk_app_widget_info" />
+        </receiver>
         <receiver
             android:name=".receiver.GeofenceReceiver"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
+
         <service
             android:name=".service.GeofenceService"
-            android:enabled="true"/>
+            android:enabled="true" />
 
         <activity android:name=".activity.AddShopActivity" />
         <!--

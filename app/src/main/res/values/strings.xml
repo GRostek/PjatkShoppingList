@@ -31,5 +31,8 @@
     <string name="description">Description</string>
     <string name="radius">Radius</string>
     <string name="shop_removed">Shop has been removed</string>
+    <string name="appwidget_text" translatable="false">EXAMPLE</string>
+    <string name="add_widget" translatable="false">Add widget</string>
+    <string name="pjatk_shopping_list_app">PJATK Shopping List App</string>
 
 </resources>
