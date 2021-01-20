@@ -22,6 +22,11 @@
         <receiver android:name=".activity.PjatkAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="@string/image_pressed"/>
+                <action android:name="@string/button_stop"/>
+                <action android:name="@string/button_pause"/>
+                <action android:name="@string/button_play"/>
+                <action android:name="@string/button_next"/>
             </intent-filter>
 
             <meta-data

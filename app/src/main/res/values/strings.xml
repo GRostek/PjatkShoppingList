@@ -34,5 +34,10 @@
     <string name="appwidget_text" translatable="false">EXAMPLE</string>
     <string name="add_widget" translatable="false">Add widget</string>
     <string name="pjatk_shopping_list_app">PJATK Shopping List App</string>
+    <string name="image_pressed" translatable="false">com.example.pjatkshoppinglist.activity.IMAGE_PRESSED</string>
+    <string name="button_stop" translatable="false">com.example.pjatkshoppinglist.activity.BUTTON_STOP</string>
+    <string name="button_pause" translatable="false">com.example.pjatkshoppinglist.activity.BUTTON_PAUSE</string>
+    <string name="button_play" translatable="false">com.example.pjatkshoppinglist.activity.BUTTON_PLAY</string>
+    <string name="button_next" translatable="false">com.example.pjatkshoppinglist.activity.BUTTON_NEXT</string>
 
 </resources>
