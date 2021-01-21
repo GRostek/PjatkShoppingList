@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
 import android.net.Uri
 import android.widget.RemoteViews
 import android.widget.Toast
@@ -16,6 +17,17 @@ import java.util.*
  * Implementation of App Widget functionality.
  */
 class PjatkAppWidget : AppWidgetProvider() {
+
+    companion object {
+        var mediaPlayer: MediaPlayer? = null
+        var playQueue = LinkedList<Int>()
+        var isStopped = false
+    }
+    //var isPaused = false
+
+
+
+
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
@@ -45,19 +57,93 @@ class PjatkAppWidget : AppWidgetProvider() {
                 )
             }
 
-            Toast.makeText(context, "XD", Toast.LENGTH_SHORT).show()
         }
         if(intent?.action == context?.getString(R.string.button_stop)){
-            Toast.makeText(context, "XDD", Toast.LENGTH_SHORT).show()
+            if(context != null)
+                initMediaPlayer(context)
+            if(!isStopped){
+                mediaPlayer?.stop()
+                isStopped = true
+            }
         }
         if(intent?.action == context?.getString(R.string.button_pause)){
-            Toast.makeText(context, "XDDD", Toast.LENGTH_SHORT).show()
+            if(context != null)
+                initMediaPlayer(context)
+            if(!isStopped){
+                mediaPlayer?.pause()
+                //isPaused = true
+                //isStopped = false
+            }
         }
         if(intent?.action == context?.getString(R.string.button_play)){
-            Toast.makeText(context, "XDDDD", Toast.LENGTH_SHORT).show()
+            if(context != null)
+                initMediaPlayer(context)
+            //if(!mediaPlayer.isPlaying){
+            if(!isStopped)
+                mediaPlayer?.start()
+            else{
+                mediaPlayer?.prepareAsync()
+            }
+            isStopped = false
+            //}
         }
         if(intent?.action == context?.getString(R.string.button_next)){
-            Toast.makeText(context, "XDDDDD", Toast.LENGTH_SHORT).show()
+            if(context != null)
+                initMediaPlayer(context)
+
+            if(mediaPlayer!!.isPlaying){
+                mediaPlayer!!.stop()
+            }
+
+
+            val id = playQueue.first
+            playQueue = iterQueue(playQueue)
+            if(context != null) {
+                mediaPlayer = MediaPlayer.create(
+                        context.applicationContext,
+                        id
+                )
+
+            }
+            mediaPlayer?.setOnPreparedListener {
+                it ->
+                it.start()
+            }
+            mediaPlayer?.start()
+
+            //val assetFileDescriptor = context?.resources?.openRawResourceFd(id)
+            /*if (assetFileDescriptor != null) {
+                playQueue = iterQueue(playQueue)
+                /mediaPlayer?.setDataSource(
+                        assetFileDescriptor.fileDescriptor,
+                        assetFileDescriptor.startOffset,
+                        assetFileDescriptor.length
+                )
+                assetFileDescriptor.close()
+                mediaPlayer?.prepare()
+                mediaPlayer?.start()
+            }*/
+            isStopped = false
+        }
+    }
+
+
+    private fun initMediaPlayer(context: Context){
+
+        if(playQueue.isEmpty()){
+            playQueue.add(R.raw.dont_stop_me_now)
+            playQueue.add(R.raw.another_one_bites_the_dust)
+        }
+
+        if(mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(
+                    context.applicationContext,
+                    R.raw.another_one_bites_the_dust
+            )
+        }
+        mediaPlayer?.setOnPreparedListener {
+            it ->
+            it.start()
         }
     }
 
@@ -74,7 +160,6 @@ internal fun initImageQueue(){
 
 internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
     var requestCode = 0
-    println("JESTEM TU")
     if(imageQueue.isEmpty())
         initImageQueue()
     val widgetText = context.getString(R.string.pjatk_shopping_list_app)
@@ -144,16 +229,15 @@ internal fun setImageView(context: Context, requestCode: Int, views: RemoteViews
 
 }
 
-internal fun changeQueue(queue: LinkedList<Int>): LinkedList<Int> {
+internal fun iterQueue(queue: LinkedList<Int>): LinkedList<Int> {
     val first = queue.first
     queue.removeFirst()
     queue.addLast(first)
-    println(queue)
     return queue
 }
 
 internal fun changeImage(views: RemoteViews){
     val first = imageQueue.first
-    imageQueue = changeQueue(imageQueue)
+    imageQueue = iterQueue(imageQueue)
     views.setImageViewResource(R.id.imageView, first)
 }
